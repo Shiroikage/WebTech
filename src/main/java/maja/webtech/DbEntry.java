@@ -1,0 +1,73 @@
+package maja.webtech;
+
+import jakarta.persistence.*;
+//TODO: rework structure for project
+
+@Entity
+public class DbEntry {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private int price;
+
+    public DbEntry() {}
+
+    public DbEntry(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DbEntry)) return false;
+
+        DbEntry dbEntry = (DbEntry) o;
+
+        if (getPrice() != dbEntry.getPrice()) return false;
+        if (getId() != null ? !getId().equals(dbEntry.getId()) : dbEntry.getId() != null) return false;
+        return getName() != null ? getName().equals(dbEntry.getName()) : dbEntry.getName() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + getPrice();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "DbEntry{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
+}
