@@ -13,6 +13,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'me.nithanim.gw2api:gw2api:0.0.8' //GW2 API Wrapper: https://github.com/Nithanim/gw2api
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
