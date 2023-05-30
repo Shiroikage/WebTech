@@ -39,3 +39,6 @@ out/
 ###H2DB###
 *.mv.db
 *.trace.db
+
+
+.idea/workspace.xml
