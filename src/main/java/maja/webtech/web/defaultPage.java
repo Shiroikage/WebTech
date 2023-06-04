@@ -12,4 +12,6 @@ public class defaultPage {
         return new ModelAndView("landingPage");
     }
 
+    //TODO: add /failed handle for spotify api connection fail
+
 }

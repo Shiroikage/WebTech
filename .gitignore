@@ -40,3 +40,6 @@ out/
 ###H2DB###
 *.mv.db
 *.trace.db
+
+
+notes.md
