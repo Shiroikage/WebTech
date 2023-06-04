@@ -19,6 +19,9 @@ public class DbEntry {
     private String song_href;
     private String image_href; //640x640
 
+    public DbEntry() {
+    }
+
     public DbEntry(String track_id, String name) {
         this.track_id = track_id;
         this.name = name;
