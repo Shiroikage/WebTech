@@ -1,5 +1,9 @@
 package maja.webtech;
 
+import org.apache.tomcat.util.json.JSONParser;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -31,6 +35,10 @@ public class ApiController {
                 while ((line = br.readLine()) != null) {
                     System.out.println(line);
                 }
+                JSONParser parse = new JSONParser(line);
+                JSONObject jobj = (JSONObject)parse.parse();
+                String token = (String) jobj.get("access_token");
+
             }
         } catch (Exception e) {
             e.printStackTrace();
