@@ -1,6 +1,9 @@
 package maja.webtech;
 
 import jakarta.persistence.*;
+
+import java.util.Arrays;
+import java.util.Objects;
 //TODO: rework structure for project
 
 @Entity
@@ -8,22 +11,29 @@ public class DbEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String track_id;
     private String name;
-    private int price;
+    private String album;
+    private String[] artists;
+    private int duration_ms;
+    private String song_href;
+    private String image_href; //640x640
 
-    public DbEntry() {}
-
-    public DbEntry(String name, int price) {
+    public DbEntry(String track_id, String name) {
+        this.track_id = track_id;
         this.name = name;
-        this.price = price;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getTrack_id() {
+        return track_id;
+    }
+
+    public void setTrack_id(String id) {
+        this.track_id = id;
     }
 
     public String getName() {
@@ -34,40 +44,70 @@ public class DbEntry {
         this.name = name;
     }
 
-    public int getPrice() {
-        return price;
+    public String getAlbum() {
+        return album;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+    public String[] getArtists() {
+        return artists;
+    }
+
+    public void setArtists(String[] artists) {
+        this.artists = artists;
+    }
+
+    public int getDuration_ms() {
+        return duration_ms;
+    }
+
+    public void setDuration_ms(int duration_ms) {
+        this.duration_ms = duration_ms;
+    }
+
+    public String getSong_href() {
+        return song_href;
+    }
+
+    public void setSong_href(String song_href) {
+        this.song_href = song_href;
+    }
+
+    public String getImage_href() {
+        return image_href;
+    }
+
+    public void setImage_href(String image_href) {
+        this.image_href = image_href;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DbEntry)) return false;
-
-        DbEntry dbEntry = (DbEntry) o;
-
-        if (getPrice() != dbEntry.getPrice()) return false;
-        if (getId() != null ? !getId().equals(dbEntry.getId()) : dbEntry.getId() != null) return false;
-        return getName() != null ? getName().equals(dbEntry.getName()) : dbEntry.getName() == null;
+        if (!(o instanceof DbEntry dbEntry)) return false;
+        return duration_ms == dbEntry.duration_ms && Objects.equals(track_id, dbEntry.track_id) && Objects.equals(name, dbEntry.name) && Objects.equals(album, dbEntry.album) && Arrays.equals(artists, dbEntry.artists) && Objects.equals(song_href, dbEntry.song_href) && Objects.equals(image_href, dbEntry.image_href);
     }
 
     @Override
     public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + getPrice();
+        int result = Objects.hash(track_id, name, album, duration_ms, song_href, image_href);
+        result = 31 * result + Arrays.hashCode(artists);
         return result;
     }
 
     @Override
     public String toString() {
         return "DbEntry{" +
-                "id=" + id +
+                "id='" + track_id + '\'' +
                 ", name='" + name + '\'' +
-                ", price=" + price +
+                ", album='" + album + '\'' +
+                ", artists=" + Arrays.toString(artists) +
+                ", duration_ms=" + duration_ms +
+                ", song_href='" + song_href + '\'' +
+                ", image_href='" + image_href + '\'' +
                 '}';
     }
 }
