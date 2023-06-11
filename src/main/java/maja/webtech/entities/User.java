@@ -16,6 +16,14 @@ public class User {
         //add api calls for other information in constructor
     }
 
+    public ApiToken getToken() {
+        return token;
+    }
+
+    public void updateToken() {
+        this.token = new ApiToken(this.clientId, this.clientSecret);
+    }
+
     public String getClientId() {
         return clientId;
     }

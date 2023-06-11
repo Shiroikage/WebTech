@@ -19,7 +19,6 @@ public class ApiController {
     private String account_key;
     private DbEntryService dbService;
     private User user = new User(System.getenv("CLIENT_ID"), System.getenv("CLIENT_SECRET"));
-    private ApiToken access = new ApiToken(user.getClientId(),user.getClientSecret());//valid for 1 hour
 
     public ApiController(DbEntryService service) {
         this.dbService = service;
@@ -32,7 +31,7 @@ public class ApiController {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setDoOutput(true);
-            con.setRequestProperty("Authorization", "Bearer " + access.getToken());
+            con.setRequestProperty("Authorization", "Bearer " + user.getToken());
 
             try (BufferedReader br = new BufferedReader(new InputStreamReader(
                     con.getInputStream())))
