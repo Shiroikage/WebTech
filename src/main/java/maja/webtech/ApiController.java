@@ -32,7 +32,7 @@ public class ApiController {
             con.setRequestMethod("GET");
             con.setDoOutput(true);
             con.setRequestProperty("Authorization", "Bearer " + user.getToken());
-
+            //stuff below prob. needs some rework
             try (BufferedReader br = new BufferedReader(new InputStreamReader(
                     con.getInputStream())))
             {
@@ -42,7 +42,7 @@ public class ApiController {
                 }
                 JSONParser parse = new JSONParser(line);
                 JSONObject jobj = (JSONObject)parse.parse();
-                String playlistId = (String) jobj.get("id"); //prob. needs some rework
+                String playlistId = (String) jobj.get("id");
                 String playlistHref = (String) jobj.get("href");
                 String name = (String) jobj.get("name");
                 JSONObject trackObject = (JSONObject) jobj.get("tracks");

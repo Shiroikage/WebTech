@@ -48,15 +48,7 @@ public class ApiToken {
         return token;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public LocalDateTime getExpDateTime() {
         return expDateTime;
-    }
-
-    public void setExpDateTime(LocalDateTime expDateTime) {
-        this.expDateTime = expDateTime;
     }
 }

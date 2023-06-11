@@ -4,8 +4,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Playlist {
+    //TODO: add addTrack() method -with Api call that adds it to playlist in Spotify?
     private String playlistId;
-    private String playlstHref;
+    private String playlistHref;
     private String name;
     private Track[] tracks;
 
@@ -22,12 +23,12 @@ public class Playlist {
         this.playlistId = playlistId;
     }
 
-    public String getPlaylstHref() {
-        return playlstHref;
+    public String getPlaylistHref() {
+        return playlistHref;
     }
 
-    public void setPlaylstHref(String playlstHref) {
-        this.playlstHref = playlstHref;
+    public void setPlaylistHref(String playlistHref) {
+        this.playlistHref = playlistHref;
     }
 
     public String getName() {
@@ -50,12 +51,12 @@ public class Playlist {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Playlist playlist)) return false;
-        return Objects.equals(playlistId, playlist.playlistId) && Objects.equals(playlstHref, playlist.playlstHref) && Objects.equals(name, playlist.name) && Arrays.equals(tracks, playlist.tracks);
+        return Objects.equals(playlistId, playlist.playlistId) && Objects.equals(playlistHref, playlist.playlistHref) && Objects.equals(name, playlist.name) && Arrays.equals(tracks, playlist.tracks);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(playlistId, playlstHref, name);
+        int result = Objects.hash(playlistId, playlistHref, name);
         result = 31 * result + Arrays.hashCode(tracks);
         return result;
     }
@@ -64,7 +65,7 @@ public class Playlist {
     public String toString() {
         return "Playlist{" +
                 "playlistId='" + playlistId + '\'' +
-                ", playlstHref='" + playlstHref + '\'' +
+                ", playlstHref='" + playlistHref + '\'' +
                 ", name='" + name + '\'' +
                 ", tracks=" + Arrays.toString(tracks) +
                 '}';
