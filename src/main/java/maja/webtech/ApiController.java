@@ -1,12 +1,14 @@
 package maja.webtech;
 
 
+import maja.webtech.entities.Playlist;
+import maja.webtech.entities.Track;
+import maja.webtech.entities.User;
 import org.apache.tomcat.util.json.JSONParser;
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,20 +17,18 @@ import java.net.URL;
 public class ApiController {
     private String account_id;
     private String account_key;
-    private ApiToken access; //valid for 1 hour
     private DbEntryService dbService;
+    private User user = new User(System.getenv("CLIENT_ID"), System.getenv("CLIENT_SECRET"));
+    private ApiToken access = new ApiToken(user.getClientId(),user.getClientSecret());//valid for 1 hour
 
     public ApiController(DbEntryService service) {
         this.dbService = service;
     }
 
-    public void createToken(){
-
-    }
-
-    public Playlist getPlaylist() {
+    public Playlist getPlaylist(String playlistId) {
+        playlistId="1gjH7nGpnCDbLbynog7MUq"; //temp for testing
         try {
-            URL url = new URL("https://api.spotify.com/v1/playlists/1gjH7nGpnCDbLbynog7MUq");
+            URL url = new URL("https://api.spotify.com/v1/playlists/"+playlistId);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setDoOutput(true);
@@ -43,7 +43,7 @@ public class ApiController {
                 }
                 JSONParser parse = new JSONParser(line);
                 JSONObject jobj = (JSONObject)parse.parse();
-                String playlistId = (String) jobj.get("id");
+                String playlistId = (String) jobj.get("id"); //prob. needs some rework
                 String playlistHref = (String) jobj.get("href");
                 String name = (String) jobj.get("name");
                 JSONObject trackObject = (JSONObject) jobj.get("tracks");

@@ -1,4 +1,4 @@
-package maja.webtech;
+package maja.webtech.entities;
 
 import java.util.Arrays;
 import java.util.Objects;
