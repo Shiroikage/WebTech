@@ -15,10 +15,13 @@ public class UserEntryController {
 
     Logger logger = LoggerFactory.getLogger(UserEntryController.class);
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/user")
     public UserEntry createThing(@RequestBody UserEntry userEntry) {
         return serviceTwo.save(userEntry);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/user/{id}")
     public UserEntry getEntry(@PathVariable String id) {
         logger.info("GET request on route UserEntry with {}", id);
@@ -26,6 +29,7 @@ public class UserEntryController {
         return serviceTwo.get(userEntryId);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/user")
     public List<UserEntry> getAllEntries() {
         return serviceTwo.getAll();
