@@ -6,8 +6,8 @@ import maja.webtech.entities.Track;
 import maja.webtech.entities.User;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
-import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.RestController;
+import org.json.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -51,14 +52,22 @@ public class ApiController {
                 String name = (String) jobj.get("name");
                 JSONObject trackObject = (JSONObject) jobj.get("tracks");
                 List<Track> tracks = new ArrayList<>();
-//                trackObject.forEach(item -> {
-//                    tracks.add()
-//                });
-//                Track[] tracks = (Track) trackObject.get();
+                Iterator<String> keys = trackObject.keys();
+                while(keys.hasNext()) {
+                    String key = keys.next();
+                    if(trackObject.get(key) instanceof JSONObject) {
+                        String trackId = trackObject.getJSONObject("items").getJSONObject("TrackObject").getString("id");
+                        tracks.add(new Track(trackId));
+                    }
+                }
+                Track[] tracksArray = (Track[]) tracks.toArray();
+                Playlist playlist = new Playlist(myPlaylistId, name);
+                playlist.setTracks(tracksArray);
+                playlist.setPlaylistHref(playlistHref);
+                return playlist;
             }
         } catch (IOException | ParseException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 }
