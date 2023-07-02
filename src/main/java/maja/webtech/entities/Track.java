@@ -13,4 +13,20 @@ public class Track {
         this.id = id;
         //add track with id only, pull the other information from API
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

@@ -1,5 +1,7 @@
 package maja.webtech;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.util.json.JSONParser;
 import org.json.*;
 
@@ -32,11 +34,10 @@ public class ApiToken {
             {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    System.out.println(line);
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    JsonNode jsonNode = objectMapper.readTree(line);
+                    this.token = jsonNode.get("access_token").asText();
                 }
-                JSONParser parse = new JSONParser(line);
-                JSONObject jobj = (JSONObject)parse.parse();
-                this.token = (String) jobj.get("access_token");
             }
         } catch (Exception e) {
             e.printStackTrace();

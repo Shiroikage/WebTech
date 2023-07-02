@@ -1,13 +1,14 @@
 package maja.webtech;
 
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import maja.webtech.entities.Playlist;
 import maja.webtech.entities.Track;
 import maja.webtech.entities.User;
-import org.apache.tomcat.util.json.JSONParser;
-import org.apache.tomcat.util.json.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
-import org.json.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +16,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -25,6 +25,7 @@ public class ApiController {
     private DbEntryService dbService;
     private User user = new User(System.getenv("CLIENT_ID"), System.getenv("CLIENT_SECRET"));
 
+    @Autowired
     public ApiController(DbEntryService service) {
         this.dbService = service;
     }
@@ -36,37 +37,36 @@ public class ApiController {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setDoOutput(true);
-            con.setRequestProperty("Authorization", "Bearer " + user.getToken());
+            con.setRequestProperty("Authorization", "Bearer " + user.getToken().getToken());
             //stuff below prob. needs some rework
             try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                    con.getInputStream())))
-            {
+                    con.getInputStream()))) {
                 String line;
+                StringBuffer test = new StringBuffer();
                 while ((line = br.readLine()) != null) {
-                    System.out.println(line);
+                    test.append(line);
+                    test.append("\n");
                 }
-                JSONParser parse = new JSONParser(line);
-                JSONObject jobj = (JSONObject)parse.parse();
-                String myPlaylistId = (String) jobj.get("id");
-                String playlistHref = (String) jobj.get("href");
-                String name = (String) jobj.get("name");
-                JSONObject trackObject = (JSONObject) jobj.get("tracks");
-                List<Track> tracks = new ArrayList<>();
-                Iterator<String> keys = trackObject.keys();
-                while(keys.hasNext()) {
-                    String key = keys.next();
-                    if(trackObject.get(key) instanceof JSONObject) {
-                        String trackId = trackObject.getJSONObject("items").getJSONObject("TrackObject").getString("id");
-                        tracks.add(new Track(trackId));
-                    }
-                }
-                Track[] tracksArray = (Track[]) tracks.toArray();
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                JsonNode jsonNode = objectMapper.readTree(String.valueOf(test));
+                String myPlaylistId = jsonNode.get("id").asText();
+                String name = jsonNode.get("name").asText();
+                String playlistHref = jsonNode.get("href").asText();
+                JsonNode jsonTracks = jsonNode.get("tracks");
+                JsonNode items = jsonTracks.get("items");
+                List<Track> tracksList = new ArrayList<>();
+                items.forEach(item -> {
+                    tracksList.add(new Track(item.get("track").get("id").asText()));
+                });
+
+                Track[] tracksArray = tracksList.toArray(new Track[tracksList.size()]);
                 Playlist playlist = new Playlist(myPlaylistId, name);
                 playlist.setTracks(tracksArray);
                 playlist.setPlaylistHref(playlistHref);
                 return playlist;
             }
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

@@ -70,4 +70,8 @@ public class Playlist {
                 ", tracks=" + Arrays.toString(tracks) +
                 '}';
     }
+
+    public void addTrack() {
+
+    }
 }
