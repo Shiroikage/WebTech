@@ -24,6 +24,8 @@ public class ApiController {
     private String account_key;
     private DbEntryService dbService;
     private User user = new User(System.getenv("CLIENT_ID"), System.getenv("CLIENT_SECRET"));
+    private UserEntryService userService;
+    private UserEntryController userController;
 
     @Autowired
     public ApiController(DbEntryService service) {
@@ -31,7 +33,7 @@ public class ApiController {
     }
 
     public Playlist getPlaylist(String playlistId) {
-        playlistId="1gjH7nGpnCDbLbynog7MUq"; //temp for testing
+//        playlistId="1gjH7nGpnCDbLbynog7MUq"; //temp for testing
         try {
             URL url = new URL("https://api.spotify.com/v1/playlists/"+playlistId);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -69,5 +71,9 @@ public class ApiController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void test() {
+
     }
 }
