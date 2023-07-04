@@ -21,7 +21,18 @@ public class RestApiController {
         String[] trackIds = new String[playlist.getTracks().length];
         int counter = 0;
         for(Track track : playlist.getTracks()) {
-            trackIds[counter] = track.getId();
+            String currentId = track.getId();
+            try {
+                service.get(Long.parseLong(currentId));
+            } catch (Exception ignored) {
+                DbEntry dbEntry = new DbEntry(currentId,track.getName());
+                dbEntry.setAlbum(track.getAlbum());
+                dbEntry.setArtists(track.getArtists());
+                dbEntry.setSong_href(track.getTrackHref());
+                dbEntry.setDuration_ms(track.getDuration());
+                service.save(dbEntry);
+            }
+            trackIds[counter] = currentId;
             counter++;
         }
         return trackIds;

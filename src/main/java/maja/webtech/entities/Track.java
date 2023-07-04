@@ -29,4 +29,44 @@ public class Track {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+    public String[] getArtists() {
+        return artists;
+    }
+
+    public void setArtists(String[] artists) {
+        this.artists = artists;
+    }
+
+    public String getTrackHref() {
+        return trackHref;
+    }
+
+    public void setTrackHref(String trackHref) {
+        this.trackHref = trackHref;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public Integer getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Integer popularity) {
+        this.popularity = popularity;
+    }
 }
