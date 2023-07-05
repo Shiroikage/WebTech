@@ -27,6 +27,8 @@ public class DbEntry {
     public DbEntry(String track_id, String name) {
         this.track_id = track_id;
         this.name = name;
+        this.likes = 0;
+        this.dislikes = 0;
     }
 
     public Long getId() {
@@ -131,5 +133,13 @@ public class DbEntry {
                 ", likes=" + likes +
                 ", dislikes=" + dislikes +
                 '}';
+    }
+
+    public void addLike() {
+        likes += 1;
+    }
+
+    public void addDislike() {
+        dislikes += 1;
     }
 }

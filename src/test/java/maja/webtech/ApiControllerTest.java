@@ -28,10 +28,4 @@ public class ApiControllerTest {
         assertEquals(firstTrackId, testTrackId);
     }
 
-    @Test
-    void secondTest() {
-        ApiController controller = new ApiController(service);
-        controller.test();
-    }
-
 }

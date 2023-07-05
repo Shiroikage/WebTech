@@ -72,8 +72,4 @@ public class ApiController {
             throw new RuntimeException(e);
         }
     }
-
-    public void test() {
-
-    }
 }
