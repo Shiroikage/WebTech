@@ -32,4 +32,10 @@ public class DbEntryController {
         return service.getAll();
     }
 
+    @DeleteMapping("/entries/{trackId}")
+    public void deleteTrack(@PathVariable String trackId) {
+        DbEntry dbEntry = service.getEntryByTrackId(trackId);
+        service.delete(dbEntry);
+    }
+
 }

@@ -12,6 +12,7 @@ public class Track {
     private String trackHref;
     private Integer duration; //in ms
     private String imageHref;
+    private String uri;
 
     public Track(String id) {
         this.id = id;
@@ -66,6 +67,14 @@ public class Track {
         this.duration = duration;
     }
 
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
     public DbEntry createDbEntryFromTrack() {
         DbEntry dbEntry = new DbEntry(id, name);
         if(album != null) {
@@ -82,6 +91,9 @@ public class Track {
         }
         if(artists != null) {
             dbEntry.setArtists(Arrays.toString(artists));
+        }
+        if(uri != null) {
+            dbEntry.setUri(uri);
         }
         return dbEntry;
     }

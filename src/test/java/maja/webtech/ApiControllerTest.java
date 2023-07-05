@@ -28,4 +28,16 @@ public class ApiControllerTest {
         assertEquals(firstTrackId, testTrackId);
     }
 
+    @Test
+    @DisplayName("remove track")
+    void removeTrackTest() {
+        String playlistId = "1gjH7nGpnCDbLbynog7MUq";
+        String trackUri = "spotify:track:6pDFS313jjuoDKq4DeUvOH";
+        String response = "abc";
+        ApiController controller = new ApiController(service);
+
+
+        assertEquals(response, controller.removeTrack(playlistId, trackUri));
+    }
+
 }

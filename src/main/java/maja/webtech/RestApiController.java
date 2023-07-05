@@ -54,4 +54,6 @@ public class RestApiController {
         dbEntry.addDislike();
         return service.save(dbEntry);
     }
+
+    //TODO: add check for amount of dislikes and if amount is too high spotify request to delete from playlist
 }

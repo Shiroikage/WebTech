@@ -37,4 +37,8 @@ public class DbEntryService {
         }
         return null;
     }
+
+    public void delete(DbEntry dbEntry) {
+        repo.delete(dbEntry);
+    }
 }

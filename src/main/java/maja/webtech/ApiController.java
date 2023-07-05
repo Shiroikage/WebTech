@@ -1,6 +1,9 @@
 package maja.webtech;
 
 
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,11 +11,10 @@ import maja.webtech.entities.Playlist;
 import maja.webtech.entities.Track;
 import maja.webtech.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ public class ApiController {
     private User user = new User(System.getenv("CLIENT_ID"), System.getenv("CLIENT_SECRET"));
     private UserEntryService userService;
     private UserEntryController userController;
+
+    // TODO: Refactor this shit, maybe use spring for requests
 
     @Autowired
     public ApiController(DbEntryService service) {
@@ -59,7 +63,13 @@ public class ApiController {
                 JsonNode items = jsonTracks.get("items");
                 List<Track> tracksList = new ArrayList<>();
                 items.forEach(item -> {
-                    tracksList.add(new Track(item.get("track").get("id").asText()));
+                    Track newTrack = new Track(item.get("track").get("id").asText());
+                    newTrack.setName(item.get("track").get("name").asText());
+                    newTrack.setUri(item.get("track").get("uri").asText());
+                    newTrack.setAlbum(item.get("track").get("album").get("name").asText());
+                    newTrack.setTrackHref(item.get("track").get("href").asText());
+                    newTrack.setDuration(item.get("track").get("duration_ms").asInt());
+                    tracksList.add(newTrack);
                 });
 
                 Track[] tracksArray = tracksList.toArray(new Track[tracksList.size()]);
@@ -68,6 +78,40 @@ public class ApiController {
                 playlist.setPlaylistHref(playlistHref);
                 return playlist;
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //TODO: investigate 403 Forbidden response
+    public String removeTrack(String playlistId, String trackuri) {
+        try {
+            URL url = new URL("https://api.spotify.com/v1/playlists/" + playlistId + "/tracks");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("DELETE");
+            con.setDoOutput(true);
+            con.setRequestProperty("Authorization", "Bearer " + user.getToken().getToken());
+            con.setRequestProperty("Content-Type", "application/json");
+            OutputStream os = con.getOutputStream();
+            JsonFactory factory = new JsonFactory();
+            JsonGenerator generator = factory.createGenerator(os, JsonEncoding.UTF8);
+
+            generator.writeStartObject();
+            generator.writeArrayFieldStart("tracks");
+            generator.writeStartObject();
+            generator.writeStringField("uri", trackuri);
+            generator.writeEndObject();
+            generator.flush();
+            generator.writeEndArray();
+            generator.writeEndObject();
+            generator.close();
+            os.close();
+            con.connect();
+            System.out.println(os);
+
+            System.out.println(con.getResponseMessage());
+            System.out.println(con.getResponseCode());
+            return con.getResponseMessage();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

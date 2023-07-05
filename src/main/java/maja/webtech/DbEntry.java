@@ -20,6 +20,7 @@ public class DbEntry {
     private String image_href; //640x640
     private int likes;
     private int dislikes;
+    private String uri;
 
     public DbEntry() {
     }
@@ -105,6 +106,14 @@ public class DbEntry {
 
     public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     @Override
