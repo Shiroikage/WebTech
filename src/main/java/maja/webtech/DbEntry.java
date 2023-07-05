@@ -89,6 +89,22 @@ public class DbEntry {
         this.image_href = image_href;
     }
 
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

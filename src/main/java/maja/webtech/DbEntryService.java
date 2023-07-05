@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DbEntryService {
@@ -25,5 +26,15 @@ public class DbEntryService {
         List<DbEntry> dbEntries = new ArrayList<DbEntry>();
         for (DbEntry dbEntry : iterator)  dbEntries.add(dbEntry);
         return dbEntries;
+    }
+
+    public DbEntry getEntryByTrackId(String trackId) {
+        List<DbEntry> dbEntries = getAll();
+        for (DbEntry dbEntry : dbEntries) {
+            if(trackId.equals(dbEntry.getTrack_id())) {
+                return dbEntry;
+            }
+        }
+        return null;
     }
 }

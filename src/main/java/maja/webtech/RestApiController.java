@@ -13,10 +13,12 @@ public class RestApiController {
 
     @Autowired
     DbEntryService service;
+
+    ApiController controller = new ApiController(service);
+
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/playlist/{playlistId}")
     public String[] getPlaylistTracks(@PathVariable String playlistId) {
-        ApiController controller = new ApiController(service);
         List<DbEntry> dbEntries = service.getAll();
         List<String> dbEntryIds = new ArrayList<>();
         for(DbEntry entry : dbEntries) {
@@ -35,5 +37,21 @@ public class RestApiController {
             counter++;
         }
         return trackIds;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/track")
+    public DbEntry addLike(@RequestBody String trackId) {
+        DbEntry dbEntry = service.getEntryByTrackId(trackId);
+        dbEntry.setLikes(dbEntry.getLikes()+1);
+        return dbEntry;
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/track")
+    public DbEntry addDislike(@RequestBody String trackId) {
+        DbEntry dbEntry = service.getEntryByTrackId(trackId);
+        dbEntry.setDislikes(dbEntry.getDislikes()+1);
+        return dbEntry;
     }
 }
