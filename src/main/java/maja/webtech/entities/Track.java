@@ -1,5 +1,9 @@
 package maja.webtech.entities;
 
+import maja.webtech.DbEntry;
+
+import java.util.Arrays;
+
 public class Track {
     private String name;
     private String id;
@@ -7,7 +11,7 @@ public class Track {
     private String[] artists;
     private String trackHref;
     private Integer duration; //in ms
-    private Integer popularity;
+    private String imageHref;
 
     public Track(String id) {
         this.id = id;
@@ -62,11 +66,23 @@ public class Track {
         this.duration = duration;
     }
 
-    public Integer getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(Integer popularity) {
-        this.popularity = popularity;
+    public DbEntry createDbEntryFromTrack() {
+        DbEntry dbEntry = new DbEntry(id, name);
+        if(album != null) {
+            dbEntry.setAlbum(album);
+        }
+        if(trackHref != null) {
+            dbEntry.setSong_href(trackHref);
+        }
+        if(duration != null) {
+            dbEntry.setDuration_ms(duration);
+        }
+        if(imageHref != null) {
+            dbEntry.setImage_href(imageHref);
+        }
+        if(artists != null) {
+            dbEntry.setArtists(Arrays.toString(artists));
+        }
+        return dbEntry;
     }
 }
