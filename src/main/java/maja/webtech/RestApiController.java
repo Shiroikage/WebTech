@@ -40,14 +40,18 @@ public class RestApiController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/track")
-    public DbEntry voteTrack(@RequestBody String trackId, int vote) {
+    @PostMapping("/like")
+    public DbEntry likeTrack(@RequestBody String trackId) {
         DbEntry dbEntry = service.getEntryByTrackId(trackId);
-        if(vote == 1) {
-            dbEntry.addLike();
-        } else if(vote == 2){
-            dbEntry.addDislike();
-        }
+        dbEntry.addLike();
+        return service.save(dbEntry);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/dislike")
+    public DbEntry dislikeTrack(@RequestBody String trackId) {
+        DbEntry dbEntry = service.getEntryByTrackId(trackId);
+        dbEntry.addDislike();
         return service.save(dbEntry);
     }
 }
