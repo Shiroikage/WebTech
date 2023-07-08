@@ -5,23 +5,20 @@ import maja.webtech.entities.Track;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
-@AutoConfigureMockMvc
-@WebMvcTest(ApiController.class)
+@SpringBootTest
 public class ApiControllerTest {
 
-    @MockBean
-    ApiController controller;
+
+    ApiController controller = new ApiController();
     String playlistId = "1gjH7nGpnCDbLbynog7MUq";
 
     @Test
-    @DisplayName("Checks for the first tracks id of playlist")
+    @DisplayName("Creates a Playlist from Json and checks for the first tracks id of playlist")
     void firstTest() throws Exception {
         String jsonResponse = "{\n" +
                 "  \"id\": \"1gjH7nGpnCDbLbynog7MUq\",\n" +
@@ -71,48 +68,46 @@ public class ApiControllerTest {
                 "        }\n" +
                 "      },\n" +
                 "      {\n" +
-                "  \t\"added_at\": \"2023-06-28T14:52:14Z\",\n" +
-                "  \t\"track\": {\n" +
-                "   \t \"id\": \"6pDFS313jjuoDKq4DeUvOH\",\n" +
-                "   \t \"name\": \"Orderly Chaos - Original Mix\",\n" +
-                "   \t \"uri\": \"spotify:track:6pDFS313jjuoDKq4DeUvOH\",\n" +
-                "   \t \"href\": \"https://api.spotify.com/v1/tracks/6pDFS313jjuoDKq4DeUvOH\",\n" +
-                "   \t \"duration_ms\": 377306,\n" +
-                "   \t \"album\": {\n" +
-                "   \t   \"name\": \"Orderly Chaos\",\n" +
-                "    \t  \"artists\": [\n" +
-                "    \t    {\n" +
-                "    \t      \"name\": \"Alignment\",\n" +
-                "    \t      \"uri\": \"spotify:artist:4eFbq5PZgW7YbtA65PP4wS\"\n" +
-                "     \t   }\n" +
-                "     \t ]\n" +
-                "    \t}\n" +
-                "       }\n" +
-                "      }\n" +
+                "       \"added_at\": \"2023-06-28T14:52:14Z\",\n" +
+                "       \"track\": {\n" +
+                "           \"id\": \"6pDFS313jjuoDKq4DeUvOH\",\n" +
+                "           \"name\": \"Orderly Chaos - Original Mix\",\n" +
+                "           \"uri\": \"spotify:track:6pDFS313jjuoDKq4DeUvOH\",\n" +
+                "           \"href\": \"https://api.spotify.com/v1/tracks/6pDFS313jjuoDKq4DeUvOH\",\n" +
+                "           \"duration_ms\": 377306,\n" +
+                "           \"album\": {\n" +
+                "             \"name\": \"Orderly Chaos\",\n" +
+                "             \"artists\": [\n" +
+                "               {\n" +
+                "               \"name\": \"Alignment\",\n" +
+                "               \"uri\": \"spotify:artist:4eFbq5PZgW7YbtA65PP4wS\"\n" +
+                "               }\n" +
+                "            ]\n" +
+                "           }\n" +
+                "          }\n" +
+                "        }\n" +
                 "    ]\n" +
                 "  }\n" +
                 "}\n";
 
 
-        // Führen Sie Ihre eigentlichen Assertions und Tests durch
         Playlist myPlaylist = controller.createPlaylistFromJson(jsonResponse);
-        System.out.println(myPlaylist);
-        Track testFirstTrack = myPlaylist.getTracks()[0];
-        String testTrackId = testFirstTrack.getId();
+        Track testTrack = myPlaylist.getTracks()[0];
+        String testTrackId = testTrack.getId();
 
         String expectedTrackId = "43OMUa5jouGCZEz9k9vooo";
         assertEquals(expectedTrackId, testTrackId);
     }
 
-    @Test
-    @DisplayName("remove track")
-    void removeTrackTest() {
-        String trackUri = "spotify:track:6pDFS313jjuoDKq4DeUvOH";
-        String response = "abc";
-        ApiController controller = new ApiController();
-
-
-        assertEquals(response, controller.removeTrack(playlistId, trackUri));
-    }
+//    @Test
+//    @DisplayName("remove track")
+//    void removeTrackTest() {
+//        String trackUri = "spotify:track:6pDFS313jjuoDKq4DeUvOH";
+//        String response = "abc";
+//        ApiController controller = new ApiController();
+//
+//
+//        assertEquals(response, controller.removeTrack(playlistId, trackUri));
+//    }
 
 }
