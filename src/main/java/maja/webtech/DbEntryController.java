@@ -50,7 +50,7 @@ public class DbEntryController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/playlist/{playlistId}")
-    public String[] getPlaylistTracks(@PathVariable String playlistId) throws JsonProcessingException {
+    public DbEntry[] getPlaylistTracks(@PathVariable String playlistId) throws JsonProcessingException {
         List<DbEntry> dbEntries = service.getAll();
         List<String> dbEntryIds = new ArrayList<>();
         for(DbEntry entry : dbEntries) {
@@ -58,7 +58,7 @@ public class DbEntryController {
         }
         String jsonString = controller.getPlaylist(playlistId);
         Playlist playlist = controller.createPlaylistFromJson(jsonString);
-        String[] trackIds = new String[playlist.getTracks().length];
+        DbEntry[] dbEntryArray = new DbEntry[playlist.getTracks().length];
         int counter = 0;
         for(Track track : playlist.getTracks()) {
             String currentId = track.getId();
@@ -66,10 +66,10 @@ public class DbEntryController {
                 DbEntry dbEntry = track.createDbEntryFromTrack();
                 service.save(dbEntry);
             }
-            trackIds[counter] = currentId;
+            dbEntryArray[counter] = service.getEntryByTrackId(currentId);
             counter++;
         }
-        return trackIds;
+        return dbEntryArray;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

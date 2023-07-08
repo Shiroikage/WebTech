@@ -38,6 +38,11 @@ public class ApiControllerTest {
                 "          \"duration_ms\": 240059,\n" +
                 "          \"album\": {\n" +
                 "            \"name\": \"Push Up (Original Mix)\",\n" +
+                "            \"images\": [\n" +
+                "               {\n" +
+                "                   \"url\": \"https://i.scdn.co/image/ab67616d0000b27348dc64582941bd0b4c87f81f\"\n" +
+                "               }\n" +
+                "            ],\n" +
                 "            \"artists\": [\n" +
                 "              {\n" +
                 "                \"name\": \"Creeds\",\n" +
@@ -57,6 +62,11 @@ public class ApiControllerTest {
                 "          \"duration_ms\": 287291,\n" +
                 "          \"album\": {\n" +
                 "            \"name\": \"Kronos\",\n" +
+                "            \"images\": [\n" +
+                "               {\n" +
+                "                   \"url\": \"https://i.scdn.co/image/ab67616d0000b273ea25ad8e5a1c1adf6329320d\"\n" +
+                "               }\n" +
+                "            ],\n" +
                 "            \"artists\": [\n" +
                 "              {\n" +
                 "                \"name\": \"HI-LO\",\n" +
@@ -76,6 +86,11 @@ public class ApiControllerTest {
                 "           \"duration_ms\": 377306,\n" +
                 "           \"album\": {\n" +
                 "             \"name\": \"Orderly Chaos\",\n" +
+                "             \"images\": [\n" +
+                "               {\n" +
+                "                   \"url\": \"https://i.scdn.co/image/ab67616d0000b2735c7cb2a85dd6c93cc21271a9\"\n" +
+                "               }\n" +
+                "             ],\n" +
                 "             \"artists\": [\n" +
                 "               {\n" +
                 "               \"name\": \"Alignment\",\n" +
