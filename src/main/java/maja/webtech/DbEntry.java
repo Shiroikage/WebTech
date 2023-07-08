@@ -23,7 +23,8 @@ public class DbEntry {
 
 
     public DbEntry() {
-
+        this.likes = 0;
+        this.dislikes = 0;
     }
 
     public Long getId() {

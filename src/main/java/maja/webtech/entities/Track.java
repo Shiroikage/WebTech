@@ -75,6 +75,14 @@ public class Track {
         this.uri = uri;
     }
 
+    public String getImageHref() {
+        return imageHref;
+    }
+
+    public void setImageHref(String imageHref) {
+        this.imageHref = imageHref;
+    }
+
     public DbEntry createDbEntryFromTrack() {
         DbEntry dbEntry = new DbEntry();
         if(id != null) {

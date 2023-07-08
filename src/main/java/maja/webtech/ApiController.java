@@ -77,6 +77,8 @@ public class ApiController {
             newTrack.setAlbum(item.get("track").get("album").get("name").asText());
             newTrack.setTrackHref(item.get("track").get("href").asText());
             newTrack.setDuration(item.get("track").get("duration_ms").asInt());
+            JsonNode images = item.get("track").get("album").get("images");
+            newTrack.setImageHref(images.get(0).get("url").asText());
             tracksList.add(newTrack);
         });
 
