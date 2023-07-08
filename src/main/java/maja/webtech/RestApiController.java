@@ -1,5 +1,6 @@
 package maja.webtech;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import maja.webtech.entities.Playlist;
 import maja.webtech.entities.Track;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,18 @@ public class RestApiController {
     @Autowired
     DbEntryService service;
 
-    ApiController controller = new ApiController(service);
+    ApiController controller = new ApiController();
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/playlist/{playlistId}")
-    public String[] getPlaylistTracks(@PathVariable String playlistId) {
+    public String[] getPlaylistTracks(@PathVariable String playlistId) throws JsonProcessingException {
         List<DbEntry> dbEntries = service.getAll();
         List<String> dbEntryIds = new ArrayList<>();
         for(DbEntry entry : dbEntries) {
             dbEntryIds.add(entry.getTrack_id());
         }
-        Playlist playlist = controller.getPlaylist(playlistId);
+        String jsonString = controller.getPlaylist(playlistId);
+        Playlist playlist = controller.createPlaylistFromJson(jsonString);
         String[] trackIds = new String[playlist.getTracks().length];
         int counter = 0;
         for(Track track : playlist.getTracks()) {

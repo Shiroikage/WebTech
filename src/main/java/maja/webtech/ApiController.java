@@ -4,6 +4,7 @@ package maja.webtech;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +12,6 @@ import maja.webtech.entities.Playlist;
 import maja.webtech.entities.Track;
 import maja.webtech.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
@@ -32,11 +32,10 @@ public class ApiController {
     // TODO: Refactor this shit, maybe use spring for requests
 
     @Autowired
-    public ApiController(DbEntryService service) {
-        this.dbService = service;
+    public ApiController() {
     }
 
-    public Playlist getPlaylist(String playlistId) {
+    public String getPlaylist(String playlistId) {
 //        playlistId="1gjH7nGpnCDbLbynog7MUq"; //temp for testing
         try {
             URL url = new URL("https://api.spotify.com/v1/playlists/"+playlistId);
@@ -48,39 +47,44 @@ public class ApiController {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(
                     con.getInputStream()))) {
                 String line;
-                StringBuffer test = new StringBuffer();
+                StringBuilder test = new StringBuilder();
                 while ((line = br.readLine()) != null) {
                     test.append(line);
                     test.append("\n");
                 }
-                ObjectMapper objectMapper = new ObjectMapper();
-                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                JsonNode jsonNode = objectMapper.readTree(String.valueOf(test));
-                String myPlaylistId = jsonNode.get("id").asText();
-                String name = jsonNode.get("name").asText();
-                String playlistHref = jsonNode.get("href").asText();
-                JsonNode jsonTracks = jsonNode.get("tracks");
-                JsonNode items = jsonTracks.get("items");
-                List<Track> tracksList = new ArrayList<>();
-                items.forEach(item -> {
-                    Track newTrack = new Track(item.get("track").get("id").asText());
-                    newTrack.setName(item.get("track").get("name").asText());
-                    newTrack.setUri(item.get("track").get("uri").asText());
-                    newTrack.setAlbum(item.get("track").get("album").get("name").asText());
-                    newTrack.setTrackHref(item.get("track").get("href").asText());
-                    newTrack.setDuration(item.get("track").get("duration_ms").asInt());
-                    tracksList.add(newTrack);
-                });
 
-                Track[] tracksArray = tracksList.toArray(new Track[tracksList.size()]);
-                Playlist playlist = new Playlist(myPlaylistId, name);
-                playlist.setTracks(tracksArray);
-                playlist.setPlaylistHref(playlistHref);
-                return playlist;
+                return test.toString();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Playlist createPlaylistFromJson(String json) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode jsonNode = objectMapper.readTree(json);
+        String myPlaylistId = jsonNode.get("id").asText();
+        String name = jsonNode.get("name").asText();
+        String playlistHref = jsonNode.get("href").asText();
+        JsonNode jsonTracks = jsonNode.get("tracks");
+        JsonNode items = jsonTracks.get("items");
+        List<Track> tracksList = new ArrayList<>();
+        items.forEach(item -> {
+            Track newTrack = new Track(item.get("track").get("id").asText());
+            newTrack.setName(item.get("track").get("name").asText());
+            newTrack.setUri(item.get("track").get("uri").asText());
+            newTrack.setAlbum(item.get("track").get("album").get("name").asText());
+            newTrack.setTrackHref(item.get("track").get("href").asText());
+            newTrack.setDuration(item.get("track").get("duration_ms").asInt());
+            tracksList.add(newTrack);
+        });
+
+        Track[] tracksArray = tracksList.toArray(new Track[tracksList.size()]);
+        Playlist playlist = new Playlist(myPlaylistId, name);
+        playlist.setTracks(tracksArray);
+        playlist.setPlaylistHref(playlistHref);
+        return playlist;
     }
 
     //TODO: investigate 403 Forbidden response
