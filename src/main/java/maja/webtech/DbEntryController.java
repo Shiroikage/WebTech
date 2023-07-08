@@ -73,9 +73,9 @@ public class DbEntryController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping("/entries/{id}/{voting}")
-    public DbEntry voteTrack(@PathVariable Long id,@PathVariable Integer voting) {
-        DbEntry dbEntry = service.get(id);
+    @PutMapping("/entries/{trackId}/{voting}")
+    public DbEntry voteTrack(@PathVariable String trackId,@PathVariable Integer voting) {
+        DbEntry dbEntry = service.getEntryByTrackId(trackId);
         if(voting == 1) {
             dbEntry.addLike();
         } else if (voting == 2) {
