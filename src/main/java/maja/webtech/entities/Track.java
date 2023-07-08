@@ -76,7 +76,13 @@ public class Track {
     }
 
     public DbEntry createDbEntryFromTrack() {
-        DbEntry dbEntry = new DbEntry(id, name);
+        DbEntry dbEntry = new DbEntry();
+        if(id != null) {
+            dbEntry.setTrack_id(id);
+        }
+        if(name != null) {
+            dbEntry.setName(name);
+        }
         if(album != null) {
             dbEntry.setAlbum(album);
         }

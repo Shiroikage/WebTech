@@ -15,7 +15,6 @@ public class ApiControllerTest {
 
 
     ApiController controller = new ApiController();
-    String playlistId = "1gjH7nGpnCDbLbynog7MUq";
 
     @Test
     @DisplayName("Creates a Playlist from Json and checks for the first tracks id of playlist")
