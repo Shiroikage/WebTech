@@ -42,9 +42,9 @@ public class DbEntryController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping("/entries/{id}")
-    public void deleteTrack(@PathVariable Long id) {
-        DbEntry dbEntry = service.get(id);
+    @DeleteMapping("/entries/{trackId}")
+    public void deleteTrack(@PathVariable String trackId) {
+        DbEntry dbEntry = service.getEntryByTrackId(trackId);
         service.delete(dbEntry);
     }
 
