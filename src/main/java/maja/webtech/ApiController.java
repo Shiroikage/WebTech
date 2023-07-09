@@ -79,6 +79,12 @@ public class ApiController {
             newTrack.setDuration(item.get("track").get("duration_ms").asInt());
             JsonNode images = item.get("track").get("album").get("images");
             newTrack.setImageHref(images.get(0).get("url").asText());
+            JsonNode artists = item.get("track").get("artists");
+            List<String> artistsList = new ArrayList<String>();
+            artists.forEach(artist -> {
+                artistsList.add(artist.get("name").asText());
+            });
+            newTrack.setArtists(artistsList.toArray(new String[0]));
             tracksList.add(newTrack);
         });
 

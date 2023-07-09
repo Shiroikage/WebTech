@@ -36,18 +36,18 @@ public class ApiControllerTest {
                 "          \"uri\": \"spotify:track:43OMUa5jouGCZEz9k9vooo\",\n" +
                 "          \"href\": \"https://api.spotify.com/v1/tracks/43OMUa5jouGCZEz9k9vooo\",\n" +
                 "          \"duration_ms\": 240059,\n" +
+                "          \"artists\": [\n" +
+                "              {\n" +
+                "                \"name\": \"Creeds\",\n" +
+                "                \"uri\": \"spotify:artist:2gW0M5fn2r7Lo4Hn1r8HZ5\"\n" +
+                "              }\n" +
+                "          ],\n" +
                 "          \"album\": {\n" +
                 "            \"name\": \"Push Up (Original Mix)\",\n" +
                 "            \"images\": [\n" +
                 "               {\n" +
                 "                   \"url\": \"https://i.scdn.co/image/ab67616d0000b27348dc64582941bd0b4c87f81f\"\n" +
                 "               }\n" +
-                "            ],\n" +
-                "            \"artists\": [\n" +
-                "              {\n" +
-                "                \"name\": \"Creeds\",\n" +
-                "                \"uri\": \"spotify:artist:2gW0M5fn2r7Lo4Hn1r8HZ5\"\n" +
-                "              }\n" +
                 "            ]\n" +
                 "          }\n" +
                 "        }\n" +
@@ -60,18 +60,18 @@ public class ApiControllerTest {
                 "          \"uri\": \"spotify:track:6eiEPJ16dOxe0hME3NWxfP\",\n" +
                 "          \"href\": \"https://api.spotify.com/v1/tracks/6eiEPJ16dOxe0hME3NWxfP\",\n" +
                 "          \"duration_ms\": 287291,\n" +
+                "          \"artists\": [\n" +
+                "              {\n" +
+                "                \"name\": \"HI-LO\",\n" +
+                "                \"uri\": \"spotify:artist:0ETJQforv5OXgDgidQv9qd\"\n" +
+                "              }\n" +
+                "          ],\n" +
                 "          \"album\": {\n" +
                 "            \"name\": \"Kronos\",\n" +
                 "            \"images\": [\n" +
                 "               {\n" +
                 "                   \"url\": \"https://i.scdn.co/image/ab67616d0000b273ea25ad8e5a1c1adf6329320d\"\n" +
                 "               }\n" +
-                "            ],\n" +
-                "            \"artists\": [\n" +
-                "              {\n" +
-                "                \"name\": \"HI-LO\",\n" +
-                "                \"uri\": \"spotify:artist:0ETJQforv5OXgDgidQv9qd\"\n" +
-                "              }\n" +
                 "            ]\n" +
                 "          }\n" +
                 "        }\n" +
@@ -84,26 +84,25 @@ public class ApiControllerTest {
                 "           \"uri\": \"spotify:track:6pDFS313jjuoDKq4DeUvOH\",\n" +
                 "           \"href\": \"https://api.spotify.com/v1/tracks/6pDFS313jjuoDKq4DeUvOH\",\n" +
                 "           \"duration_ms\": 377306,\n" +
+                "           \"artists\": [\n" +
+                "               {\n" +
+                "               \"name\": \"Alignment\",\n" +
+                "               \"uri\": \"spotify:artist:4eFbq5PZgW7YbtA65PP4wS\"\n" +
+                "               }\n" +
+                "           ],\n" +
                 "           \"album\": {\n" +
                 "             \"name\": \"Orderly Chaos\",\n" +
                 "             \"images\": [\n" +
                 "               {\n" +
                 "                   \"url\": \"https://i.scdn.co/image/ab67616d0000b2735c7cb2a85dd6c93cc21271a9\"\n" +
                 "               }\n" +
-                "             ],\n" +
-                "             \"artists\": [\n" +
-                "               {\n" +
-                "               \"name\": \"Alignment\",\n" +
-                "               \"uri\": \"spotify:artist:4eFbq5PZgW7YbtA65PP4wS\"\n" +
-                "               }\n" +
-                "            ]\n" +
+                "             ]\n" +
                 "           }\n" +
                 "          }\n" +
                 "        }\n" +
                 "    ]\n" +
                 "  }\n" +
                 "}\n";
-
 
         Playlist myPlaylist = controller.createPlaylistFromJson(jsonResponse);
         Track testTrack = myPlaylist.getTracks()[0];

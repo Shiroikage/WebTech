@@ -104,7 +104,7 @@ public class Track {
             dbEntry.setImage_href(imageHref);
         }
         if(artists != null) {
-            dbEntry.setArtists(Arrays.toString(artists));
+            dbEntry.setArtists(String.join(",", artists));
         }
         if(uri != null) {
             dbEntry.setUri(uri);
